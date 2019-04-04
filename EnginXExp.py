@@ -13,7 +13,7 @@ class EnginXExp:
 
     """
 
-    def __init__(self, geompy, Nx=2, Nz=5):
+    def __init__(self, geompy, Nx=2, Nz=5, pub_det=True, pub_lines=True):
 
         
         """
@@ -22,6 +22,26 @@ class EnginXExp:
         North and south bank with equal grid
         """
 
+
+        # Create origin and add to study
+
+        O = geompy.MakeVertex(0, 0, 0)
+        
+        OX = geompy.MakeVectorDXDYDZ(1, 0, 0)
+
+        OY = geompy.MakeVectorDXDYDZ(0, 1, 0)
+
+        OZ = geompy.MakeVectorDXDYDZ(0, 0, 1)
+
+        geompy.addToStudy( O, 'O' )
+
+        geompy.addToStudy( OX, 'OX' )
+
+        geompy.addToStudy( OY, 'OY' )
+
+        geompy.addToStudy( OZ, 'OZ' )
+        
+        
 
         # North bank
         
@@ -69,14 +89,47 @@ class EnginXExp:
 
         # Add detectors to study
 
-        for i,dt in enumerate( self.nb_detectors ):
+        if pub_det:
 
-            geompy.addToStudy( dt, 'NB-Detector {}'.format(i) )
+            for i,dt in enumerate( self.nb_detectors ):
+
+                geompy.addToStudy( dt, 'NB-Detector {}'.format(i) )
 
 
-        for i,dt in enumerate( self.sb_detectors ):
+            for i,dt in enumerate( self.sb_detectors ):
 
-            geompy.addToStudy( dt, 'SB-Detector {}'.format(i) )            
+                geompy.addToStudy( dt, 'SB-Detector {}'.format(i) )            
+
+
+
+
+
+        # Neutron lines
+
+        self.nb_lines = []
+
+        self.sb_lines = []
+
         
+        for det in self.nb_detectors:
+
+            self.nb_lines.append( geompy.MakeLineTwoPnt(O, det) )
+
+
+        for det in self.sb_detectors:
+
+            self.sb_lines.append( geompy.MakeLineTwoPnt(O, det) )
+
+
+        if pub_lines:
+
+            for i,nl in enumerate( self.nb_lines ):
+                
+                geompy.addToStudy( nl, 'NB-Line {}'.format(i) )
+
+            for i,nl in enumerate( self.sb_lines ):
+                
+                geompy.addToStudy( nl, 'SB-Line {}'.format(i) )                
+            
         
         pass
