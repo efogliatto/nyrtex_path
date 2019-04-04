@@ -59,6 +59,13 @@ enginx = nt.EnginXExp(geompy, pub_det=False, pub_lines=False)
 sample = nt.cylSample(geompy, enginx, 0.015, 0.05)
 
 
+# Compute paths
+
+paths = enginx.flight_distance(geompy, sample)
+
+
+
+
 
 if salome.sg.hasDesktop():
   salome.sg.updateObjBrowser(True)

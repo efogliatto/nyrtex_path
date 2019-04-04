@@ -131,5 +131,85 @@ class EnginXExp:
                 
                 geompy.addToStudy( nl, 'SB-Line {}'.format(i) )                
             
+
+
+
+
+
+
+        # Beam
         
+        Vertex_beam = geompy.MakeVertex(0, 1, 0)
+        
+        self.BEAM = geompy.MakeLineTwoPnt(Vertex_beam, self.O)
+
+
+                
         pass
+
+
+
+
+    
+
+    # Flight paths
+
+    def paths(self, geompy, sample):
+
+        """
+
+        Compute paths for specific sample
+        
+        """
+
+        nb_paths = [ geompy.MakeCommon(self.BEAM, sample) ]
+
+        sb_paths = [ geompy.MakeCommon(self.BEAM, sample) ]
+
+        
+        for nl in self.nb_lines:
+
+            nb_paths.append(  geompy.MakeCommon(nl, sample)  )
+
+            
+        for nl in self.sb_lines:
+
+            sb_paths.append(  geompy.MakeCommon(nl, sample)  )
+
+
+        return nb_paths, sb_paths
+
+
+
+    
+
+    # Flight distances
+
+    def flight_distance(self, geompy, sample):
+
+        """
+
+        Compute distances for specific sample
+        
+        """
+
+        nb_path, sb_path = self.paths(geompy,sample)
+
+
+        nb_dist = []
+
+        sb_dist = []
+
+
+        for fp in nb_path:
+
+            nb_dist.append( geompy.BasicProperties(fp)[0] )
+
+
+        for fp in sb_path:
+
+            sb_dist.append( geompy.BasicProperties(fp)[0] )            
+
+        
+
+        return nb_dist, sb_dist
