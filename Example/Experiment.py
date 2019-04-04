@@ -51,7 +51,7 @@ geompy = geomBuilder.New(theStudy)
 
 # Create Engin-X Experiment
 
-enginx = nt.EnginXExp(geompy, pub_det=False, pub_lines=False)
+enginx = nt.EnginXExp(geompy, pub_det=False, pub_lines=True, Nx = 1, Nz = 5)
 
 
 # Cylindrical sample
@@ -62,6 +62,8 @@ sample = nt.cylSample(geompy, enginx, 0.015, 0.05)
 # Compute paths
 
 paths = enginx.flight_distance(geompy, sample)
+
+
 
 
 

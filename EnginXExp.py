@@ -139,7 +139,7 @@ class EnginXExp:
 
         # Beam
         
-        Vertex_beam = geompy.MakeVertex(0, 1, 0)
+        Vertex_beam = geompy.MakeVertex(-1, 0, 0)
         
         self.BEAM = geompy.MakeLineTwoPnt(Vertex_beam, self.O)
 
