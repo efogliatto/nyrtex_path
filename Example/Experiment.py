@@ -51,7 +51,12 @@ geompy = geomBuilder.New(theStudy)
 
 # Create Engin-X Experiment
 
-engix = nt.EnginXExp(geompy, pub_det=False)
+enginx = nt.EnginXExp(geompy, pub_det=False, pub_lines=False)
+
+
+# Cylindrical sample
+
+sample = nt.cylSample(geompy, enginx, 0.015, 0.05)
 
 
 

@@ -25,21 +25,21 @@ class EnginXExp:
 
         # Create origin and add to study
 
-        O = geompy.MakeVertex(0, 0, 0)
+        self.O = geompy.MakeVertex(0, 0, 0)
         
-        OX = geompy.MakeVectorDXDYDZ(1, 0, 0)
+        self.OX = geompy.MakeVectorDXDYDZ(1, 0, 0)
 
-        OY = geompy.MakeVectorDXDYDZ(0, 1, 0)
+        self.OY = geompy.MakeVectorDXDYDZ(0, 1, 0)
 
-        OZ = geompy.MakeVectorDXDYDZ(0, 0, 1)
+        self.OZ = geompy.MakeVectorDXDYDZ(0, 0, 1)
 
-        geompy.addToStudy( O, 'O' )
+        geompy.addToStudy( self.O, 'O' )
 
-        geompy.addToStudy( OX, 'OX' )
+        geompy.addToStudy( self.OX, 'OX' )
 
-        geompy.addToStudy( OY, 'OY' )
+        geompy.addToStudy( self.OY, 'OY' )
 
-        geompy.addToStudy( OZ, 'OZ' )
+        geompy.addToStudy( self.OZ, 'OZ' )
         
         
 
@@ -113,12 +113,12 @@ class EnginXExp:
         
         for det in self.nb_detectors:
 
-            self.nb_lines.append( geompy.MakeLineTwoPnt(O, det) )
+            self.nb_lines.append( geompy.MakeLineTwoPnt(self.O, det) )
 
 
         for det in self.sb_detectors:
 
-            self.sb_lines.append( geompy.MakeLineTwoPnt(O, det) )
+            self.sb_lines.append( geompy.MakeLineTwoPnt(self.O, det) )
 
 
         if pub_lines:
