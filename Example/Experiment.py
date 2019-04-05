@@ -11,6 +11,8 @@ import sys
 
 import salome
 
+import numpy as np
+
 salome.salome_init()
 
 
@@ -20,15 +22,18 @@ import salome_notebook
 
 notebook = salome_notebook.NoteBook()
 
-sys.path.insert(0, r'/users/fogliate/.local/lib/python3.5/site-packages/nyrtex_path/Example')
-
 
 
 # Import NyRTex module
 
-import nyrtex_path as nt
+####################################
+# IMPORTANT: NyRTex package location
+####################################
 
-import numpy as np
+# sys.path.append(r'/users/fogliate/.local/lib/python3.5/site-packages/nyrtex_path/')
+sys.path.append(r'C:path\to\nyrtex_path')
+
+import nyrtex_path as nt
 
 
 
