@@ -62,6 +62,18 @@ class cylSample:
         self.OY = geompy.MakeVectorDXDYDZ(0, 2.*radius, 0)
 
         self.OZ = geompy.MakeVectorDXDYDZ(0, 0, height)
+
+
+
+        # Translate everything
+
+        self.Sample = geompy.MakeTranslation(self.Sample, X0, Y0, Z0)
+
+        self.OX = geompy.MakeTranslation(self.OX, X0, Y0, Z0)
+
+        self.OY = geompy.MakeTranslation(self.OY, X0, Y0, Z0)
+
+        self.OZ = geompy.MakeTranslation(self.OZ, X0, Y0, Z0)
         
         
     
