@@ -73,7 +73,7 @@ class EnginXExp:
 
         self.sb_detectors = []        
 
-        for j in range(Nz):
+        for j in reversed( range(Nz) ):
 
             for i in range(Nx):            
 
@@ -83,7 +83,7 @@ class EnginXExp:
 
                 self.nb_detectors.append(  geompy.MakeVertex(-0.2 + dx * (0.5 + i),  1.5, -0.4 + dz * (0.5 + j) )  )
 
-                self.sb_detectors.append(  geompy.MakeVertex(-0.2 + dx * (0.5 + i), -1.5, -0.4 + dz * (0.5 + j) )  )                
+                self.sb_detectors.append(  geompy.MakeVertex( 0.2 - dx * (0.5 + i), -1.5, -0.4 + dz * (0.5 + j) )  )                
 
 
 
@@ -93,12 +93,12 @@ class EnginXExp:
 
             for i,dt in enumerate( self.nb_detectors ):
 
-                geompy.addToStudy( dt, 'NB-Detector {}'.format(i) )
+                geompy.addToStudy( dt, 'NB-Detector {}'.format(i+1) )
 
 
             for i,dt in enumerate( self.sb_detectors ):
 
-                geompy.addToStudy( dt, 'SB-Detector {}'.format(i) )            
+                geompy.addToStudy( dt, 'SB-Detector {}'.format(i+1) )            
 
 
 
@@ -125,11 +125,11 @@ class EnginXExp:
 
             for i,nl in enumerate( self.nb_lines ):
                 
-                geompy.addToStudy( nl, 'NB-Line {}'.format(i) )
+                geompy.addToStudy( nl, 'NB-Line {}'.format(i+1) )
 
             for i,nl in enumerate( self.sb_lines ):
                 
-                geompy.addToStudy( nl, 'SB-Line {}'.format(i) )                
+                geompy.addToStudy( nl, 'SB-Line {}'.format(i+1) )                
             
 
 
@@ -139,7 +139,7 @@ class EnginXExp:
 
         # Beam
         
-        Vertex_beam = geompy.MakeVertex(-1, 0, 0)
+        Vertex_beam = geompy.MakeVertex(-100, 0, 0)
         
         self.BEAM = geompy.MakeLineTwoPnt(Vertex_beam, self.O)
 
@@ -154,7 +154,7 @@ class EnginXExp:
 
     # Flight paths
 
-    def paths(self, geompy, sample):
+    def paths(self, geompy, sample, show=False, name='sample'):
 
         """
 
@@ -177,6 +177,18 @@ class EnginXExp:
             sb_paths.append(  geompy.MakeCommon(nl, sample)  )
 
 
+
+        if show:
+
+            for nl in nb_paths:
+
+                geompy.addToStudy(nl,name + '_NB')
+
+            for nl in sb_paths:
+
+                geompy.addToStudy(nl,name + '_SB')                
+
+
         return nb_paths, sb_paths
 
 
@@ -185,7 +197,7 @@ class EnginXExp:
 
     # Flight distances
 
-    def flight_distance(self, geompy, sample):
+    def flight_distance(self, geompy, sample, show=False, name='sample'):
 
         """
 
@@ -193,7 +205,7 @@ class EnginXExp:
         
         """
 
-        nb_path, sb_path = self.paths(geompy,sample)
+        nb_path, sb_path = self.paths(geompy,sample, show, name)
 
 
         nb_dist = []
