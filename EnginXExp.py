@@ -220,8 +220,8 @@ class EnginXExp:
 
         for fp in sb_path:
 
-            sb_dist.append( geompy.BasicProperties(fp)[0] )            
+            sb_dist.append( geompy.BasicProperties(fp)[0] )       
 
         
 
-        return nb_dist, sb_dist
+        return nb_dist[1:] + sb_dist[1:], nb_dist[0]
