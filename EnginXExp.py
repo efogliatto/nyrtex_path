@@ -139,11 +139,12 @@ class EnginXExp:
 
         # Beam
         
-        Vertex_beam = geompy.MakeVertex(-100, 0, 0)
+        Vertex_beam = geompy.MakeVertex(-3, 0, 0)
         
         self.BEAM = geompy.MakeLineTwoPnt(Vertex_beam, self.O)
 
-
+        geompy.addToStudy(self.BEAM, "Beam")
+        
                 
         pass
 
