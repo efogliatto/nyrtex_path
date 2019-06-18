@@ -30,8 +30,7 @@ notebook = salome_notebook.NoteBook()
 # IMPORTANT: NyRTex package location
 ####################################
 
-# sys.path.append(r'/users/fogliate/.local/lib/python3.5/site-packages/nyrtex_path/')
-sys.path.append(r'C:path\to\nyrtex_path')
+sys.path.append(r'/users/fogliate/.local/lib/python3.5/site-packages/nyrtex_path/')
 
 import nyrtex_path as nt
 
@@ -59,12 +58,13 @@ enginx = nt.EnginXExp(geompy, pub_det=False, pub_lines=False, Nx = 2, Nz = 5)
 
 # Rotations
 
-rotations = [(0,0,0), (30,45,0)]
+rotations = [(0,0,0), (30,0,0), (30,45,0), (30,45,45)]
+
 
 
 # Cylindrical sample
 
-baseSample = nt.cylSample(geompy, enginx, 0.015, 0.05)
+baseSample = nt.cylSample(geompy, enginx, 0.01375, 0.180, Y0=0.01375/2.0)
 
 samples = []
 
@@ -73,17 +73,15 @@ for rot in rotations:
   samples.append( baseSample.Rot1(geompy, enginx, rot) )
 
 
-  
-
 # Add to study (only for visualization)
 
 for rot,sample in zip(rotations,samples):
 
-  geompy.addToStudy(sample.Sample, sample.name + '_{}_{}_{}'.format(rot[0],rot[1], rot[2]))
+  geompy.addToStudy(sample.Sample, sample.name + '_{}_{}_{}'.format(rot[0], rot[1], rot[2]))
 
 
 
-  
+ 
 # Compute paths
 
 paths_list = []
@@ -92,26 +90,20 @@ for rot,sample in zip(rotations,samples):
 
   paths, beam = enginx.flight_distance( geompy, sample.Sample, show=True, name = sample.name + '_{}_{}_{}'.format(rot[0],rot[1], rot[2]) )
   
-  if not paths_list:
-
-    paths_list = paths
-
-  else:
-
-    paths_list = np.column_stack( (paths_list, paths) )
+  paths_list.append( paths )
 
 
-
+    
     
 # Write paths
 
 with open('Sample_fp.dat','w') as f:
 
-  for rot in paths_list:
+  for det in range(len(paths_list[0])):
 
-    for r in rot:
+    for rot in range(len(paths_list)):
 
-      f.write('{:.7g} '.format(r))
+      f.write('{:.7g} '.format(paths_list[rot][det]))
 
     f.write('\n')
 
