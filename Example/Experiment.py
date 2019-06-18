@@ -55,57 +55,83 @@ geompy = geomBuilder.New()
 enginx = nt.EnginXExp(geompy, pub_det=False, pub_lines=False, Nx = 2, Nz = 5)
 
 
+# Traslations
+
+traslations = [(0,0,0), (0, 0.009, 0), (0,-0.009,0), (-0.009, 0, 0)]
+
 
 # Rotations
 
-rotations = [(0,0,0), (30,0,0), (30,45,0), (30,45,45)]
+rotations = [ (0.00 ,  0.00   ,  0.00), 
+              (0.00 ,  30.00  ,  0.00), 
+              (0.00 , -30.00  ,  0.00),
+              (15.00,  45.00  ,  0.00),
+              (15.00,  15.00  ,  0.00), 
+              (15.00,  -15.00 ,  0.00),
+              (45.00,  0.00   ,  0.00),
+              (45.00,  30.00  ,  0.00),
+              (45.00,  -30.00 ,  0.00),
+              (60.00,  15.00  ,  0.00),
+              (60.00,  -15.00 ,  0.00),
+              (60.00,  -45.00 ,  0.00),
+              (90.00,  -15.00 ,  0.00), 
+              (90.00,  -30.00 ,  0.00),  
+              (90.00,  15.00  ,  0.00),  
+              (90.00,  30.00  ,  0.00),  
+              (90.00,  45.00  ,  0.00) ]
+ 
 
 
+# Iterate over traslations
 
-# Cylindrical sample
+for i,t in enumerate(traslations):
 
-baseSample = nt.cylSample(geompy, enginx, 0.01375, 0.180, Y0=0.01375/2.0)
+ 
+  # Cylindrical sample
 
-samples = []
-
-for rot in rotations:
-
-  samples.append( baseSample.Rot1(geompy, enginx, rot) )
+  baseSample = nt.cylSample(geompy, enginx, 0.01375, 0.180, X0=t[0], Y0=t[1], Z0=t[2], name='Sample')
 
 
-# Add to study (only for visualization)
+  samples = []
 
-for rot,sample in zip(rotations,samples):
+  for rot in rotations:
 
-  geompy.addToStudy(sample.Sample, sample.name + '_{}_{}_{}'.format(rot[0], rot[1], rot[2]))
+    samples.append( baseSample.Rot1(geompy, enginx, rot) )
+
+
+  # Add to study (only for visualization)
+
+  for rot,sample in zip(rotations,samples):
+
+    geompy.addToStudy(sample.Sample, sample.name + '_{}_{}_{}'.format(rot[0], rot[1], rot[2]))
 
 
 
  
-# Compute paths
+  # Compute paths
 
-paths_list = []
+  paths_list = []
 
-for rot,sample in zip(rotations,samples):
+  for rot,sample in zip(rotations,samples):
 
-  paths, beam = enginx.flight_distance( geompy, sample.Sample, show=True, name = sample.name + '_{}_{}_{}'.format(rot[0],rot[1], rot[2]) )
+    paths, beam = enginx.flight_distance( geompy, sample.Sample, show=True, name = sample.name + '_{}_{}_{}'.format(rot[0],rot[1], rot[2]) )
   
-  paths_list.append( paths )
+    paths_list.append( [x + beam for x in paths] )
 
 
     
     
-# Write paths
+  # Write paths
 
-with open('Sample_fp.dat','w') as f:
+  with open(sample.name + '_fp_{}.dat'.format(i),'w') as f:
 
-  for det in range(len(paths_list[0])):
+    for det in range(len(paths_list[0])):
 
-    for rot in range(len(paths_list)):
+      for rot in range(len(paths_list)):
 
-      f.write('{:.7g} '.format(paths_list[rot][det]))
+        f.write('{:.7g} '.format(paths_list[rot][det]))
 
-    f.write('\n')
+      f.write('\n')
 
     
 
