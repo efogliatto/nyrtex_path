@@ -51,7 +51,6 @@ class cylSample:
 
         self.COM = geompy.MakeCDG(self.Sample)        
     
-        # geompy.addToStudy( self.Sample, name )
 
 
         
@@ -65,15 +64,9 @@ class cylSample:
 
 
 
-        # Translate everything
+        # Initial traslation
 
         self.Sample = geompy.MakeTranslation(self.Sample, X0, Y0, Z0)
-
-        self.OX = geompy.MakeTranslation(self.OX, X0, Y0, Z0)
-
-        self.OY = geompy.MakeTranslation(self.OY, X0, Y0, Z0)
-
-        self.OZ = geompy.MakeTranslation(self.OZ, X0, Y0, Z0)
         
         
     
@@ -95,39 +88,46 @@ class cylSample:
         """
 
 
+        degree = [x*np.pi/180.0 for x in rot]
+
+        
+
         # Chi rotation
 
         newSample = deepcopy(self)
         
-        newSample.Sample = geompy.MakeRotation(self.Sample, enginx.OY, rot[0])
+        newSample.Sample = geompy.MakeRotation(self.Sample, enginx.OY, degree[0])
 
-        newSample.OX = geompy.MakeRotation(self.OX, enginx.OY, rot[0])
+        newSample.OX = geompy.MakeRotation(self.OX, enginx.OY, degree[0])
 
-        newSample.OY = geompy.MakeRotation(self.OY, enginx.OY, rot[0])
+        newSample.OY = geompy.MakeRotation(self.OY, enginx.OY, degree[0])
 
-        newSample.OZ = geompy.MakeRotation(self.OY, enginx.OY, rot[0])        
+        newSample.OZ = geompy.MakeRotation(self.OZ, enginx.OY, degree[0])        
 
 
 
         # Omega rotation
         
-        newSample.Sample = geompy.MakeRotation(newSample.Sample, enginx.OZ, rot[1])
+        newSample.Sample = geompy.MakeRotation(newSample.Sample, enginx.OZ, degree[1])
 
-        newSample.OX = geompy.MakeRotation(newSample.OX, enginx.OZ, rot[1])
+        newSample.OX = geompy.MakeRotation(newSample.OX, enginx.OZ, degree[1])
 
-        newSample.OY = geompy.MakeRotation(newSample.OY, enginx.OZ, rot[1])
+        newSample.OY = geompy.MakeRotation(newSample.OY, enginx.OZ, degree[1])
 
-        newSample.OZ = geompy.MakeRotation(newSample.OY, enginx.OZ, rot[1])
+        newSample.OZ = geompy.MakeRotation(newSample.OZ, enginx.OZ, degree[1])
 
 
 
         # Phi rotation
         
-        newSample.Sample = geompy.MakeRotation(newSample.Sample, newSample.OZ, rot[2])
+        newSample.Sample = geompy.MakeRotation(newSample.Sample, newSample.OZ, degree[2])
 
-        newSample.OX = geompy.MakeRotation(newSample.OX, newSample.OZ, rot[2])
+        newSample.OX = geompy.MakeRotation(newSample.OX, newSample.OZ, degree[2])
 
-        newSample.OY = geompy.MakeRotation(newSample.OY, newSample.OZ, rot[2])
+        newSample.OY = geompy.MakeRotation(newSample.OY, newSample.OZ, degree[2])
+
+
+
 
 
 
@@ -148,37 +148,40 @@ class cylSample:
         """
 
 
+        degree = [x*np.pi/180.0 for x in rot]
+        
+        
         # Alpha rotation
 
         newSample = deepcopy(self)        
         
-        newSample.Sample = geompy.MakeRotation(self.Sample, enginx.OZ, rot[0])
+        newSample.Sample = geompy.MakeRotation(self.Sample, enginx.OZ, degree[0])
 
-        newSample.OX = geompy.MakeRotation(self.OX, enginx.OZ, rot[0])
+        newSample.OX = geompy.MakeRotation(self.OX, enginx.OZ, degree[0])
 
-        newSample.OY = geompy.MakeRotation(self.OY, enginx.OZ, rot[0])
+        newSample.OY = geompy.MakeRotation(self.OY, enginx.OZ, degree[0])
 
-        newSample.OZ = geompy.MakeRotation(self.OY, enginx.OZ, rot[0])        
+        newSample.OZ = geompy.MakeRotation(self.OZ, enginx.OZ, degree[0])        
 
 
 
         # Beta rotation
         
-        newSample.Sample = geompy.MakeRotation(newSample.Sample, newSample.OX, rot[1])
+        newSample.Sample = geompy.MakeRotation(newSample.Sample, newSample.OX, degree[1])
 
-        newSample.OY = geompy.MakeRotation(newSample.OY, newSample.OX, rot[1])
+        newSample.OY = geompy.MakeRotation(newSample.OY, newSample.OX, degree[1])
 
-        newSample.OZ = geompy.MakeRotation(newSample.OY, newSample.OX, rot[1])
+        newSample.OZ = geompy.MakeRotation(newSample.OY, newSample.OX, degree[1])
 
 
 
         # Gamma rotation
         
-        newSample.Sample = geompy.MakeRotation(newSample.Sample, newSample.OZ, rot[2])
+        newSample.Sample = geompy.MakeRotation(newSample.Sample, newSample.OZ, degree[2])
 
-        newSample.OX = geompy.MakeRotation(newSample.OX, newSample.OZ, rot[2])
+        newSample.OX = geompy.MakeRotation(newSample.OX, newSample.OZ, degree[2])
 
-        newSample.OY = geompy.MakeRotation(newSample.OY, newSample.OZ, rot[2])
+        newSample.OY = geompy.MakeRotation(newSample.OY, newSample.OZ, degree[2])
 
 
 
