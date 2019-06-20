@@ -30,7 +30,7 @@ notebook = salome_notebook.NoteBook()
 # IMPORTANT: NyRTex package location
 ####################################
 
-sys.path.append(r'/users/fogliate/.local/lib/python3.5/site-packages/nyrtex_path/')
+sys.path.append(r'/home/ezequiel/.local/lib/python3.5/site-packages/nyrtex_path/')
 
 import nyrtex_path as nt
 
@@ -89,7 +89,7 @@ for i,t in enumerate(traslations):
  
   # Cylindrical sample
 
-  baseSample = nt.cylSample(geompy, enginx, 0.01375, 0.180, X0=t[0], Y0=t[1], Z0=t[2], name='Sample')
+  baseSample = nt.cylSample(geompy, enginx, 0.01375, 0.180, X0=t[0], Y0=t[1], Z0=t[2], name='M15')
 
 
   samples = []
