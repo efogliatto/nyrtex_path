@@ -67,6 +67,18 @@ class cylSample:
         # Initial traslation
 
         self.Sample = geompy.MakeTranslation(self.Sample, X0, Y0, Z0)
+
+
+
+
+        # Save translations
+
+        self.initTras = [X0, Y0, Z0]
+
+        
+        # Save rotations
+        
+        self.initRot = [0,0,0]
         
         
     
@@ -89,6 +101,8 @@ class cylSample:
 
 
         degree = [x*np.pi/180.0 for x in rot]
+
+        self.initRot = degree
 
         
 
@@ -129,11 +143,66 @@ class cylSample:
 
 
 
-
-
         return newSample
 
 
+
+
+
+
+
+    def Gauge_Rot1(self, geompy, enginx, vol=(0.004,0.004,0.006)):
+
+        
+        """
+
+        Rot1 type rotations
+
+        """
+
+
+        # Gauge volume
+        
+        gv0 = geompy.MakeVertex(-vol[0]/2, -vol[1]/2, -vol[2]/2)
+
+        gv1 = geompy.MakeVertex(vol[0]/2, vol[1]/2, vol[2]/2)
+
+        Gauge = geompy.MakeBoxTwoPnt(gv0, gv1)
+
+        measured = geompy.MakeCommon( Gauge, self.Sample )
+
+
+
+
+        # Restore rotations
+
+        # Phi rotation
+        
+        measured = geompy.MakeRotation(measured, self.OZ, -self.initRot[2])
+
+
+        
+        # Omega rotation
+        
+        measured = geompy.MakeRotation(measured, enginx.OZ, -self.initRot[1])
+
+        
+
+        # Chi rotation
+        
+        measured = geompy.MakeRotation(measured, enginx.OY, -self.initRot[0])
+
+
+
+        # Restore initial traslation
+
+        measured = geompy.MakeTranslation(measured, -self.initTras[0], -self.initTras[1], -self.initTras[2])
+
+
+
+        return measured
+
+    
 
     
 
@@ -149,6 +218,9 @@ class cylSample:
 
 
         degree = [x*np.pi/180.0 for x in rot]
+
+        self.initRot = degree
+        
         
         
         # Alpha rotation

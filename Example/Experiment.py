@@ -79,10 +79,12 @@ rotations = [ (0.00 ,  0.00   ,  0.00),
               (90.00,  15.00  ,  0.00),  
               (90.00,  30.00  ,  0.00),  
               (90.00,  45.00  ,  0.00) ]
- 
+
 
 
 # Iterate over traslations
+
+GaugeVols = []
 
 for i,t in enumerate(traslations):
 
@@ -98,12 +100,19 @@ for i,t in enumerate(traslations):
 
     samples.append( baseSample.Rot1(geompy, enginx, rot) )
 
+    GaugeVols.append( samples[-1].Gauge_Rot1(geompy, enginx) )
+
+    GaugeVols[-1].SetName( 'Gv_{}_{}_{}_{}'.format(i,rot[0], rot[1], rot[2]) )
+
+    
+
 
   # Add to study (only for visualization)
 
   for rot,sample in zip(rotations,samples):
 
-    geompy.addToStudy(sample.Sample, sample.name + '_{}_{}_{}'.format(rot[0], rot[1], rot[2]))
+    geompy.addToStudy(sample.Sample, sample.name + '_{}_{}_{}_{}'.format(i,rot[0], rot[1], rot[2]))
+
 
 
 
@@ -114,7 +123,7 @@ for i,t in enumerate(traslations):
 
   for rot,sample in zip(rotations,samples):
 
-    paths, beam = enginx.flight_distance( geompy, sample.Sample, show=True, name = sample.name + '_{}_{}_{}'.format(rot[0],rot[1], rot[2]) )
+    paths, beam = enginx.flight_distance( geompy, sample.Sample, show=False, name = sample.name + '_{}_{}_{}'.format(rot[0],rot[1], rot[2]) )
   
     paths_list.append( [x + beam for x in paths] )
 
@@ -135,6 +144,15 @@ for i,t in enumerate(traslations):
 
     
 
+
+
+
+# Show all measured volumes
+
+for gv in GaugeVols:
+
+  geompy.addToStudy(gv, gv.GetName())
+      
     
 
 if salome.sg.hasDesktop():
