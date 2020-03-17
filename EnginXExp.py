@@ -13,7 +13,7 @@ class EnginXExp:
 
     """
 
-    def __init__(self, geompy, Nx=2, Nz=5, pub_det=True, pub_lines=True):
+    def __init__(self, geompy, Nx=2, Nz=5, pub_det=True, pub_lines=True, detFile='none'):
 
         
         """
@@ -86,6 +86,39 @@ class EnginXExp:
                 self.sb_detectors.append(  geompy.MakeVertex( 0.2 - dx * (0.5 + i), -1.5, -0.4 + dz * (0.5 + j) )  )                
 
 
+
+        # Write detector coordinates if name is provided
+
+        if detFile != 'none':
+
+            with open( detFile, 'w' ) as dfile:
+
+
+                # North bank
+
+                dfile.write('# North bank\n')
+
+                for vtx in self.nb_detectors:
+
+                    coord = geompy.PointCoordinates(vtx)
+
+                    dfile.write('{:.5f} {:.5f} {:.5f}\n'.format( coord[0],coord[1],coord[2] ))
+
+
+
+
+                # South bank
+
+                dfile.write('\n# South bank\n')
+
+                for vtx in self.sb_detectors:
+
+                    coord = geompy.PointCoordinates(vtx)
+
+                    dfile.write('{:.5f} {:.5f} {:.5f}\n'.format( coord[0],coord[1],coord[2]) )
+                    
+                    
+                
 
         # Add detectors to study
 
