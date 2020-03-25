@@ -90,12 +90,13 @@ class cylSample:
 
 
 
-    def Rot1(self, geompy, enginx, rot=(0,0,0)):
+    def Rot_YZZp(self, geompy, enginx, rot=(0,0,0)):
 
         
         """
 
-        Rot1 type rotations
+        Rotation type:
+        X, Z, Z'
 
         """
 
@@ -147,6 +148,65 @@ class cylSample:
 
 
 
+
+
+    def Rot_XZZp(self, geompy, enginx, rot=(0,0,0)):
+
+        
+        """
+
+        Rotation type:
+        X, Z, Z'
+
+        """
+
+
+        degree = [x*np.pi/180.0 for x in rot]
+
+        self.initRot = degree
+
+        
+
+        # Chi rotation
+
+        newSample = deepcopy(self)
+        
+        newSample.Sample = geompy.MakeRotation(self.Sample, enginx.OX, degree[0])
+
+        newSample.OX = geompy.MakeRotation(self.OX, enginx.OX, degree[0])
+
+        newSample.OY = geompy.MakeRotation(self.OY, enginx.OX, degree[0])
+
+        newSample.OZ = geompy.MakeRotation(self.OZ, enginx.OX, degree[0])        
+
+
+
+        # Omega rotation
+        
+        newSample.Sample = geompy.MakeRotation(newSample.Sample, enginx.OZ, degree[1])
+
+        newSample.OX = geompy.MakeRotation(newSample.OX, enginx.OZ, degree[1])
+
+        newSample.OY = geompy.MakeRotation(newSample.OY, enginx.OZ, degree[1])
+
+        newSample.OZ = geompy.MakeRotation(newSample.OZ, enginx.OZ, degree[1])
+
+
+
+        # Phi rotation
+        
+        newSample.Sample = geompy.MakeRotation(newSample.Sample, newSample.OZ, degree[2])
+
+        newSample.OX = geompy.MakeRotation(newSample.OX, newSample.OZ, degree[2])
+
+        newSample.OY = geompy.MakeRotation(newSample.OY, newSample.OZ, degree[2])
+
+
+
+
+        return newSample
+
+    
 
 
 
