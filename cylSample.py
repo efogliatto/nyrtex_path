@@ -303,7 +303,7 @@ class cylSample:
 
         newSample.OY = geompy.MakeRotation(newSample.OY, newSample.OX, degree[1])
 
-        newSample.OZ = geompy.MakeRotation(newSample.OY, newSample.OX, degree[1])
+        newSample.OZ = geompy.MakeRotation(newSample.OZ, newSample.OX, degree[1])
 
 
 
